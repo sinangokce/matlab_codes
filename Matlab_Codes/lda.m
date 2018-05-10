@@ -24,7 +24,6 @@ data = csvread('Data.csv',1);
 data = change_label(data);
 M = size(data,2);
 
-
 %since there is no hyper-parameter in this LDA algorithm, no need to do a grid search.
 %err = cvshrink(Mdl)
 %% F_Fold Cross-Validation
@@ -34,9 +33,9 @@ for i=1:F_fold
     Model = fitcdiscr(training_data(:,2:M), training_data(:,1));%train the model with training data
     %label(:,i) = predict(Mdl, test_data(:,2:M));
     %label(:,1) = predict(Mdl, test_data(:,2:M));
-    [label(i),score(i),cost(i)] = predict(Model,test_data(:,2:M));
+    [label(:,i),score(:,:,i),cost(:,:,i)] = predict(Model,test_data(:,2:M));
     L(i) = loss(Model,test_data(:,2:M), test_data(:,1));
-    B_Index(i) = b_index(score, test_data(:,1));
+    B_Index(i) = b_index(score(:,:,i), test_data(:,1));
     %classification_error(i) = label_error(label(:,i),test_data(:,1)); %L(i) ile ayni sey
     %classification_error(1) = label_error(label(:,1),test_data(:,1)); %L(i) ile ayni sey
     %figure;
